@@ -1,14 +1,29 @@
 var moment = require('moment-timezone');
 
-console.log("Starting App");
 
-var patient = moment(new Date());
+var PatientTimeZone = "America/Los_Angeles";
+var format = "dddd, MMMM D YYYY, h:mm:ss a";
+
+var format1 = moment(new Date(),format).tz(PatientTimeZone);
+
+var us = moment().utcOffset();
+var them = format1.utcOffset();
 
 
-console.log(patient.format('YYYY-MM-DD HH:mm'));
-console.log(patient.clone().tz("America/Los_Angeles").format('YYYY-MM-DD HH:mm'));
+console.log("us:"+us);
+console.log("them:"+them);
 
-var formatted = new Date(patient.clone().tz("America/Los_Angeles").format('YYYY-MM-DD HH:mm'));
 
-console.log(formatted.getHours());
-console.log(patient.toDate().getHours());
+if(them < us){
+    console.log(moment(new Date).utcOffset(us - them +us).format('YYYY-MM-DD HH:mm')); 
+}
+else if(them > us){
+    console.log(moment(new Date).utcOffset(us + them -us).format('YYYY-MM-DD HH:mm'));
+}
+else {// No changes nessesary
+    console.log(moment(new Date).format('YYYY-MM-DD HH:mm'));
+
+}
+
+
+
